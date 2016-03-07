@@ -68,5 +68,5 @@ public class EventsDemo extends JComponentWithEvents {
   }
 
   // Standard main method:
-  public static void main(String[] args) { launch(500, 400); }
+  public static void main(String[] args) { launch(600, 400); }
 }
