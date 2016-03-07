@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class EventsDemo extends JComponentWithEvents {
   public ArrayList<String> images;
-  public String steve = "Steve the Strawberry.png";
-  public String tyrone = "Tyrone the Turtle.png";
-  public String lion = "Lion the Lemon.png";
-  public String music1 = "brandenburg6.mid";
+  public String steve = "Resources/Steve the Strawberry.png";
+  public String tyrone = "Resources/Tyrone the Turtle.png";
+  public String lion = "Resources/Lion the Lemon.png";
+  public String music1 = "Resources/brandenburg6.mid";
   public double rad = 0;
 
   public void start() {
