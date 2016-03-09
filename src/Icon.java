@@ -1,10 +1,10 @@
 import java.awt.*;
 
 public class Icon {
-  private Image img;
-  private int posX, posY;
-  private int height, width;
-  private double rotation, scale;
+  public Image img;
+  public int posX, posY;
+  public int height, width;
+  public double rotation, scale;
   
   public Icon(Image image, int x, int y) {
     img = image;
