@@ -14,15 +14,13 @@ public class EventsDemo extends JComponentWithEvents {
   public String tyrone = "Resources/Tyrone the Turtle.png";
   public String lion = "Resources/Lion the Lemon.png";
   public String music1 = "Resources/brandenburg6.mid";
+  public Icon steveo;
   public double rad = 0;
 
   public void start() {
     play(music1);
     setTimerDelay(1);
-    images = new ArrayList<>();
-    images.add(steve);
-    images.add(tyrone);
-    images.add(lion);
+    steveo = new Icon(getImageFromFile(steve));
   }
 
   public void timerFired() {
@@ -63,7 +61,7 @@ public class EventsDemo extends JComponentWithEvents {
 
   public void paint(Graphics2D page) {
     for(int i = 0; i < images.size(); i++) {
-      drawImage(page, images.get(i), (int)(Math.random()*getWidth()), (int)(Math.random()*getHeight()), 1, rad);
+      drawImage(page, steveo.img, steveo.posX, steveo.posY, steveo.scale, steveo.rotation);
     }
   }
 

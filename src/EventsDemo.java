@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class EventsDemo extends JComponentWithEvents {
-  public ArrayList<String> images;
   public String steve = "Resources/Steve the Strawberry.png";
   public String tyrone = "Resources/Tyrone the Turtle.png";
   public String lion = "Resources/Lion the Lemon.png";
@@ -20,7 +19,7 @@ public class EventsDemo extends JComponentWithEvents {
   public void start() {
     play(music1);
     setTimerDelay(1);
-    steveo = new Icon(getImageFromFile(steve));
+    steveo = new Icon(getImageFromFile(tyrone));
   }
 
   public void timerFired() {
@@ -28,7 +27,6 @@ public class EventsDemo extends JComponentWithEvents {
   }
 
   public void mousePressed(int x, int y) {
-    images.add(tyrone);
   }
 
   public void mouseDragged(int x, int y) {
@@ -60,9 +58,7 @@ public class EventsDemo extends JComponentWithEvents {
   }
 
   public void paint(Graphics2D page) {
-    for(int i = 0; i < images.size(); i++) {
-      drawImage(page, steveo.img, steveo.posX, steveo.posY, steveo.scale, steveo.rotation);
-    }
+    drawImage(page, steveo.img, steveo.posX, steveo.posY + 100, 0.5, 0);
   }
 
   // Standard main method:
