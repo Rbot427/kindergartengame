@@ -21,7 +21,7 @@ public class TrickGame extends JComponentWithEvents {
 
   public void timerFired() {
     tyrone.move();
-    tyrone.rotate();
+    tyrone.rotate(0.2);
   }
 
   public void mousePressed(int x, int y) {
