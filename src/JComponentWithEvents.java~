@@ -99,11 +99,6 @@ public class JComponentWithEvents extends JComponent
   public MouseEvent getMouseEvent()         { return currentMouseEvent; }
   public KeyEvent   getKeyEvent()           { return currentKeyEvent; }
 
-  /*
-   * Modification By Ryan Stentz
-   */
-  public static JFrame frame;
-  
   //////////////////////////////////////
   /// Version and semi-auto-update manager
   //////////////////////////////////////
@@ -749,7 +744,7 @@ public class JComponentWithEvents extends JComponent
       if (c == null) throw new RuntimeException("No main class");
       JComponentWithEvents comp = JComponentWithEvents.newInstance(c,width,height);
       comp.isApplet = false;
-      frame = new JFrame(comp.getClass().getName());
+      JFrame frame = new JFrame(comp.getClass().getName());
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       JPanel cp = new JPanel();
       cp.setLayout(new BorderLayout());
