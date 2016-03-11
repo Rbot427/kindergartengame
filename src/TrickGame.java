@@ -6,7 +6,7 @@ public class TrickGame extends JComponentWithEvents {
   public boolean gameOver = false;
   public static int wWidth = 800, wHeight = 600;
   Character tyrone;
-  String tyroneImage = "Resources/Tyrone the Turtle.png";
+  String tyroneImage = "Resources/Tyrone the Turtle Skateboard.png";
   
   public void start() {
     init();
@@ -53,11 +53,20 @@ public class TrickGame extends JComponentWithEvents {
   }
 
   public void keyPressed(char key) {
-    
+    cJump(tyrone);
+  }
+  
+  public void cJump(Character c) {
+    c.setVelocity(c.velocityX, -20);
+    c.setAcceleration(c.accelX, 1);
   }
 
+  public void drawCharacter(Graphics2D page, Character c) {
+    drawImage(page, c.img, c.posX, c.posY, c.scale, c.rotation);
+  }
+  
   public void paint(Graphics2D page) {
-    drawImage(page, tyrone.img, tyrone.posX, tyrone.posY, 1, tyrone.rotation);
+    drawCharacter(page, tyrone);
   }
 
   // Main Standard Method
