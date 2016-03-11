@@ -17,10 +17,10 @@ public class AddingWithLion extends JComponentWithEvents{
   public void start() {
     //play(music1);
     setTimerDelay(1);
-    images = new ArrayList<>();
-    //images.add(steve);
-    //images.add(tyrone);
-    images.add(lion);
+//    images = new ArrayList<>();
+//    //images.add(steve);
+//    //images.add(tyrone);
+//    images.add(lion);
   }
   
   
@@ -61,12 +61,18 @@ public class AddingWithLion extends JComponentWithEvents{
   public void keyPressed(char key) {
     
   }
+  
+  public void drawCharacter(Graphics2D page, Character c){
+    drawImage(page, c.img, c.posX, c.posY, c.scale, c.rotation); 
+  }
+    
 
   public void paint(Graphics2D page) {
-    for(int i = 0; i < images.size(); i++) {
-      drawImage(page, images.get(i), (int)(Math.random()*getWidth()), (int)(Math.random()*getHeight()), 1, rad);
+    drawCharacter(page, lion); 
+//    for(int i = 0; i < images.size(); i++) {
+//      drawImage(page, lion.img(), (int)(Math.random()*getWidth()), (int)(Math.random()*getHeight()), 1, rad);
     }
-  }
+  
 
   
   
