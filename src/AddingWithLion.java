@@ -15,6 +15,7 @@ public class AddingWithLion extends JComponentWithEvents{
     lion = new Character(getImageFromFile(lionPic)); 
   }
   public void start() {
+    lemon(); 
     //play(music1);
     setTimerDelay(1);
 //    images = new ArrayList<>();
@@ -24,7 +25,7 @@ public class AddingWithLion extends JComponentWithEvents{
   }
   
   
-  
+  //public void 
 
   public void timerFired() {
     //rad += 0.001;
@@ -59,7 +60,10 @@ public class AddingWithLion extends JComponentWithEvents{
   }
 
   public void keyPressed(char key) {
-    
+    if (key==LEFT && lion.posX>5) lion.posX-=5;
+    if (key==RIGHT) lion.posX+=5; 
+    if (key==DOWN) lion.posY+=5;
+    if (key==UP && lion.posY>5) lion.posY-=5; 
   }
   
   public void drawCharacter(Graphics2D page, Character c){
@@ -68,18 +72,16 @@ public class AddingWithLion extends JComponentWithEvents{
     
 
   public void paint(Graphics2D page) {
+    page.setColor(Color.cyan); 
+    page.fillRect(0, 0, getWidth(), getHeight()); 
+    
     drawCharacter(page, lion); 
 //    for(int i = 0; i < images.size(); i++) {
 //      drawImage(page, lion.img(), (int)(Math.random()*getWidth()), (int)(Math.random()*getHeight()), 1, rad);
     }
   
 
-  
-  
-  
-  
-  
-  public static void main(String[] args){ launch(800, 600); }
+  public static void main(String[] args){ launch(1500, 1125); }
   
 }
   
