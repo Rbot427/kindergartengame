@@ -11,6 +11,7 @@ public class Icon {
     posX = x; posY =  y;
     height = img.getHeight(null);
     width = img.getWidth(null);
+    scale = 1; rotation = 0;
   }
   
   public Icon(Image image) {
