@@ -75,6 +75,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void paint(Graphics2D page) {
+    page.setColor(Color.blue); page.fillRect(0,0, wWidth, wHeight);
     drawCharacter(page, tyrone);
   }
 
