@@ -10,18 +10,19 @@ public class TrickGame extends JComponentWithEvents {
   
   public void start() {
     init();
-    setTimerDelay(100);
+    setTimerDelay(50);
   }
   
   public void init() {
     frame.setTitle("Trick Master Tyrone");
     tyrone = new Character(getImageFromFile(tyroneImage));
-    tyrone.setVelocity(5,1);
+    tyrone.setVelocity(0,0);
+    tyrone.scale = 0.5;
   }
 
   public void timerFired() {
     tyrone.move();
-    tyrone.rotate(0.2);
+    //tyrone.rotate(0.2);
   }
 
   public void mousePressed(int x, int y) {
@@ -53,7 +54,15 @@ public class TrickGame extends JComponentWithEvents {
   }
 
   public void keyPressed(char key) {
-    cJump(tyrone);
+    if(key == ' ') cJump(tyrone);
+    else if(key == 'l') cLand(tyrone);
+    else if(key == LEFT) tyrone.setPos(tyrone.posX - 1, tyrone.posY);
+    else if(key == RIGHT) tyrone.setPos(tyrone.posX + 1, tyrone.posY);
+  }
+  
+  public void cLand(Character c) {
+    c.setVelocity(c.velocityX, 0);
+    c.setAcceleration(c.accelX, 0);
   }
   
   public void cJump(Character c) {
