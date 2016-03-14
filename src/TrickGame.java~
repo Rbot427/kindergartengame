@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class TrickGame extends JComponentWithEvents {
   public boolean gameOver = false;
   public static int wWidth = 800, wHeight = 600;
+  public int rowHeight = 100;
+  public int cSpeed = 10;
   Character tyrone;
   String tyroneImage = "Resources/Tyrone the Turtle Skateboard.png";
   
@@ -14,15 +16,22 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void init() {
-    frame.setTitle("Trick Master Tyrone");
+    frame.setTitle("Trick Master Tyrone (LITE)");
     tyrone = new Character(getImageFromFile(tyroneImage));
-    tyrone.setVelocity(0,0);
+    tyrone.setVelocity(cSpeed,0);
     tyrone.scale = 0.5;
   }
 
   public void timerFired() {
     tyrone.move();
+    if(tyrone.posX > wWidth || tyrone.posX < 0)
+      nextRow(tyrone);
     //tyrone.rotate(0.2);
+  }
+  
+  public void nextRow(Character c) {
+    c.setPos(c.posX, c.posY + rowHeight);
+    c.setVelocity(c.velocityX*(-1), c.velocityY);
   }
 
   public void mousePressed(int x, int y) {
@@ -75,6 +84,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void paint(Graphics2D page) {
+    page.setColor(Color.blue); page.fillRect(0,0, wWidth, wHeight);
     drawCharacter(page, tyrone);
   }
 
