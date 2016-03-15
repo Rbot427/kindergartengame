@@ -8,7 +8,9 @@ public class TrickGame extends JComponentWithEvents {
   public int rowHeight = 100;
   public int cSpeed = 10;
   Character tyrone;
+  Character ball;
   String tyroneImage = "Resources/Tyrone the Turtle Skateboard.png";
+  String ballImage = "Resources/Ball.png";
   
   public void start() {
     init();
@@ -20,12 +22,17 @@ public class TrickGame extends JComponentWithEvents {
     tyrone = new Character(getImageFromFile(tyroneImage));
     tyrone.setVelocity(cSpeed,0);
     tyrone.scale = 0.5;
+    ball = new Character(getImageFromFile(ballImage));
+    ball.setVelocity(5,5);
+    ball.setAcceleration(ball.accelX, 1);
   }
 
   public void timerFired() {
     tyrone.move();
     if(tyrone.posX > wWidth || tyrone.posX < 0)
       nextRow(tyrone);
+    checkBallPos(ball);
+    ball.move();
     //tyrone.rotate(0.2);
   }
   
@@ -61,7 +68,22 @@ public class TrickGame extends JComponentWithEvents {
   public void mouseExited(int x, int y) {
     
   }
-
+  
+  public void checkCollision(Character c1, Character c2) {
+    int x1 = c1.positionX + c1.width/2, x2 = c2.positionX + c2.width/2;
+    int y1 = e.positionY + e.height/2, y2 = player.positionY + player.height/2;
+      return Math.abs(x1 - x2) <= e.width/2 + player.width/2 &&
+             Math.abs(y1 - y2) <= e.height/2 + player.height/2;
+  }
+  
+  public void checkBallPos(Character ball) {
+    if(ball.posX > wWidth || ball.posX < 0)
+      ball.setVelocity(ball.velocityX*(-1), ball.velocityY);
+    if(ball.posY > wHeight)
+      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1)*0.9));
+    
+  }
+  
   public void keyPressed(char key) {
     if(key == ' ') cJump(tyrone);
     else if(key == 'l') cLand(tyrone);
@@ -86,6 +108,7 @@ public class TrickGame extends JComponentWithEvents {
   public void paint(Graphics2D page) {
     page.setColor(Color.blue); page.fillRect(0, 0, wWidth, wHeight);
     drawCharacter(page, tyrone);
+    drawCharacter(page, ball);
   }
 
   // Main Standard Method

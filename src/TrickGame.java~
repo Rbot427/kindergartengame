@@ -12,7 +12,7 @@ public class TrickGame extends JComponentWithEvents {
   
   public void start() {
     init();
-    setTimerDelay(50);
+    setTimerDelay(25);
   }
   
   public void init() {
@@ -84,7 +84,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void paint(Graphics2D page) {
-    page.setColor(Color.blue); page.fillRect(0,0, wWidth, wHeight);
+    page.setColor(Color.blue); page.fillRect(0, 0, wWidth, wHeight);
     drawCharacter(page, tyrone);
   }
 
