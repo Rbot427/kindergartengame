@@ -22,8 +22,8 @@ public class TrickGame extends JComponentWithEvents {
     frame.setTitle("Trick Master Tyrone (LITE)");
     tyrone = new Character(getImageFromFile(tyroneImage));
     tyrone.setVelocity(cSpeed,0);
-    tyrone.scale = 0.5;
-    ball = new Character(getImageFromFile(ballImage));
+    tyrone.setScale(0.5);
+    ball = new Character(getImageFromFile(ballImage), 200, 200);
     ball.setVelocity(5,5);
     ball.setAcceleration(ball.accelX, 1);
   }
@@ -34,6 +34,7 @@ public class TrickGame extends JComponentWithEvents {
       nextRow(tyrone);
     checkBallPos(ball);
     ball.move();
+    handleCollision(tyrone, ball);
     //tyrone.rotate(0.2);
   }
   
@@ -70,18 +71,23 @@ public class TrickGame extends JComponentWithEvents {
     
   }
   
- /* public void checkCollision(Character c1, Character c2) {
-    int x1 = c1.positionX + c1.width/2, x2 = c2.positionX + c2.width/2;
-    int y1 = e.positionY + e.height/2, y2 = player.positionY + player.height/2;
-      return Math.abs(x1 - x2) <= e.width/2 + player.width/2 &&
-             Math.abs(y1 - y2) <= e.height/2 + player.height/2;
-  }*/
+  public void handleCollision(Character c1, Character c2) {
+    if(checkCollision(c1, c2))
+         cBounce(c2, c1.velocityY);
+  }
+  
+  public boolean checkCollision(Character c1, Character c2) {
+    int x1 = c1.posX + c1.width/2, x2 = c2.posX + c2.width/2;
+    int y1 = c1.posY + c1.height/2, y2 = c2.posY + c2.height/2;
+      return Math.abs(x1 - x2) <= c1.width/2 + c2.width/2 &&
+             Math.abs(y1 - y2) <= c1.height/2 + c2.height/2;
+  }
   
   public void checkBallPos(Character ball) {
     if(ball.posX > wWidth || ball.posX < 0)
       ball.setVelocity(ball.velocityX*(-1), ball.velocityY);
     if(ball.posY > wHeight)
-      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1)*0.9));
+      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1)));
     
   }
   
@@ -90,6 +96,10 @@ public class TrickGame extends JComponentWithEvents {
     else if(key == 'l') cLand(tyrone);
     else if(key == LEFT) tyrone.setPos(tyrone.posX - 1, tyrone.posY);
     else if(key == RIGHT) tyrone.setPos(tyrone.posX + 1, tyrone.posY);
+  }
+  
+  public void cBounce(Character c, int v) {
+    c.setVelocity(c.velocityX, (int)((c.velocityY*(-1) + v)*0.9));
   }
   
   public void cLand(Character c) {

@@ -15,6 +15,7 @@ public class TrickGame extends JComponentWithEvents {
   public void start() {
     init();
     setTimerDelay(25);
+    System.out.println(tyrone.height);
   }
   
   public void init() {
@@ -69,12 +70,12 @@ public class TrickGame extends JComponentWithEvents {
     
   }
   
-  public void checkCollision(Character c1, Character c2) {
+ /* public void checkCollision(Character c1, Character c2) {
     int x1 = c1.positionX + c1.width/2, x2 = c2.positionX + c2.width/2;
     int y1 = e.positionY + e.height/2, y2 = player.positionY + player.height/2;
       return Math.abs(x1 - x2) <= e.width/2 + player.width/2 &&
              Math.abs(y1 - y2) <= e.height/2 + player.height/2;
-  }
+  }*/
   
   public void checkBallPos(Character ball) {
     if(ball.posX > wWidth || ball.posX < 0)
