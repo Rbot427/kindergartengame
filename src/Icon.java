@@ -32,8 +32,10 @@ public class Icon {
     updateSize();
   }
   
-  public void resize(int newHeight, int newWidth) {
-    
+  public void setScale(double newScale) {
+    scale = newScale;
+    height = (int)(height*scale);
+    width = (int)(width*scale);
   }
   
   public void setRotation(double radians) {
