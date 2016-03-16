@@ -15,6 +15,7 @@ public class TrickGame extends JComponentWithEvents {
   public void start() {
     init();
     setTimerDelay(25);
+    System.out.println(tyrone.height);
   }
   
   public void init() {
