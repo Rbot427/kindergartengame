@@ -9,9 +9,15 @@ public class Shapes extends JComponentWithEvents{
   private int correctLength = 60;
   private Color shapeColor;
   private Color[] colorOptions = {Color.red, Color.blue, Color.green, Color.yellow};
+  public String fireImage = "Resources/fire.png";
+  //Icon fire = new Icon(getImageFromFile(fireImage));
+  int xFirePos[];
+  int yFirePos[];
+  int fires = 6;
   
   public void Shapes(){
     //getImageFromFile(lava);
+    
   }
   
   public void randomNumber(){
@@ -24,9 +30,18 @@ public class Shapes extends JComponentWithEvents{
     shapeColor = colorOptions[color.nextInt(4)];
   }
   
+  public void placeFire(){
+    Random fireSpot = new Random();
+    for(int i=0; i<fires; i++){
+      xFirePos[i] = fireSpot.nextInt(getWidth()-120)+60;
+      yFirePos[i] = fireSpot.nextInt(getHeight()-120)+60;
+    }
+  }
+  
   public void start(){
     randomNumber();
     randomColor();
+    placeFire();
   }
   
   public void reset(){
@@ -54,7 +69,12 @@ public class Shapes extends JComponentWithEvents{
     paintSquare(page, 80, 80, 60, shapeColor);
     paintPenta(page, 200, 200, 60, shapeColor);
     paintHexa(page, 300, 300, 60, shapeColor);
+    paintFire(page, fireImage, xFirePos, yFirePos);
   }
+  
+  public void paintFire(Graphics2D page, String fireImage, int x, int y){
+    drawImage(page, fireImage, x, y, .1, 0);
+  }  
   
   public void paintTriangle(Graphics2D page, int x1, int y1, int sideLength, Color color){
     page.setColor(color);
@@ -80,9 +100,9 @@ public class Shapes extends JComponentWithEvents{
   
   public void paintPenta(Graphics2D page, int x1, int y1, int sideLength, Color color){
     int xpoint1 = x1;
-    int xpoint2 = (int)(x1-(Math.cos((2*Math.PI)/3)*sideLength));
+    int xpoint2 = (int)(x1+sideLength-(Math.cos((3*Math.PI)/5)*sideLength));
     int xpoint3 = x1+(sideLength/2);
-    int xpoint4 = (int)(x1+sideLength+(Math.cos((2*Math.PI)/3)*sideLength));
+    int xpoint4 = (int)(x1+(Math.cos((3*Math.PI)/5)*sideLength));
     int xpoint5 = x1+sideLength;
     
     int ypoint1 = y1;
@@ -99,8 +119,6 @@ public class Shapes extends JComponentWithEvents{
     page.fillPolygon(p);
     page.setColor(Color.black);
     page.fillOval(x1-5, y1-5, 10, 10);
-    page.setColor(Color.black);
-    page.fillOval(xpoint2-5, ypoint2-5, 10, 10);
   }
   
   public void paintHexa(Graphics2D page, int x1, int y1, int sideLength, Color color){
