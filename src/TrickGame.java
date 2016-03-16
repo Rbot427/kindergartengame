@@ -21,8 +21,9 @@ public class TrickGame extends JComponentWithEvents {
   public void init() {
     frame.setTitle("Trick Master Tyrone (LITE)");
     tyrone = new Character(getImageFromFile(tyroneImage));
-    tyrone.setVelocity(cSpeed,0);
+    //tyrone.setVelocity(cSpeed,0);
     tyrone.setScale(0.5);
+    tyrone.setPos(wWidth/2 - tyrone.width/2, wHeight - tyrone.height);
     ball = new Character(getImageFromFile(ballImage), 200, 200);
     ball.setVelocity(5,5);
     ball.setAcceleration(ball.accelX, 1);
@@ -30,8 +31,8 @@ public class TrickGame extends JComponentWithEvents {
 
   public void timerFired() {
     tyrone.move();
-    if(tyrone.posX > wWidth || tyrone.posX < 0)
-      nextRow(tyrone);
+    //if(tyrone.posX + tyrone.width > wWidth || tyrone.posY < 0)
+      //nextRow(tyrone);
     checkBallPos(ball);
     ball.move();
     handleCollision(tyrone, ball);
@@ -84,11 +85,18 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void checkBallPos(Character ball) {
-    if(ball.posX > wWidth || ball.posX < 0)
+    if(ball.posX + ball.width >= wWidth) {
+      ball.setPos(wWidth-ball.width-1, ball.posY);
       ball.setVelocity(ball.velocityX*(-1), ball.velocityY);
-    if(ball.posY > wHeight)
-      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1)));
-    
+    }
+    else if(ball.posX <= 0) {
+      ball.setPos(1, ball.posY);
+      ball.setVelocity(ball.velocityX*(-1), ball.velocityY);
+    }
+    if(ball.posY + ball.height > wHeight) {
+      ball.setPos(ball.posX, wHeight-ball.height-1);
+      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1) *(0.9)));
+    }
   }
   
   public void keyPressed(char key) {
@@ -96,6 +104,7 @@ public class TrickGame extends JComponentWithEvents {
     else if(key == 'l') cLand(tyrone);
     else if(key == LEFT) tyrone.setPos(tyrone.posX - 1, tyrone.posY);
     else if(key == RIGHT) tyrone.setPos(tyrone.posX + 1, tyrone.posY);
+    else if(key == 'p') ball.setPos(0,0);
   }
   
   public void cBounce(Character c, int v) {
