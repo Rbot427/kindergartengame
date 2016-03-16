@@ -12,6 +12,7 @@ public class AddingWithLion extends JComponentWithEvents{
   Character lion; 
   Character steveo; 
   boolean up = false;
+  public int maxHeight = (int) (getHeight());
   
   public void lemon(){
     lion = new Character(getImageFromFile(lionPic)); 
@@ -22,27 +23,28 @@ public class AddingWithLion extends JComponentWithEvents{
   
   public void strawberry(){
     steveo = new Character(getImageFromFile(steve)); 
+    steveo.posY = getHeight()/2; 
   }
   
-  public void lemonUpOrDown(){
-    if (lion.posY>=getHeight()/2) up = true;
-    if (lion.posY<=0) up = false; 
-  }
+//  public void lemonUpOrDown(){
+//    
+//    if (lion.posY==getHeight()/2) up = true;
+//    if (lion.posY>0 && lion.posY<getHeight()/2) up = false; 
+//    System.out.println(up); 
+//  }
   
   public void lionBounce(){
     if (!up){
       lion.setVelocity(-10, 50); 
       lion.setAcceleration(0, 10); 
+      if (lion.posY>=maxHeight) up = true; 
     }
+    System.out.println(up); 
     if (up){
       lion.setVelocity(-10, -50);
-      lion.setAcceleration(0, 10); 
+      lion.setAcceleration(0, -10); 
+      if (lion.posY<=0) up = false;
     }
-//    if (lion.posY<=getHeight()/2)
-//      lion.posY-=50;
-//    if (lion.posY>=0)
-//      lion.posY+=50; 
-//  }
   }
   
   public void start() {
@@ -51,48 +53,39 @@ public class AddingWithLion extends JComponentWithEvents{
     lionBounce(); 
     //play(music1);
     setTimerDelay(1000);
-//    images = new ArrayList<>();
-//    //images.add(steve);
-//    //images.add(tyrone);
-//    images.add(lion);
   }
-  
-  
-  //public void 
 
   public void timerFired() {
     lion.move();
-    lemonUpOrDown(); 
-    //rad += 0.001;
   }
 
-  public void mousePressed(int x, int y) {
-    //images.add(tyrone);
-  }
-
-  public void mouseDragged(int x, int y) {
-   
-  }
-
-  public void mouseReleased(int x, int y) {
-    
-  }
-
-  public void mouseMoved(int x, int y) {
-   
-  }
-
-  private void mouseEnteredOrExited(String msg, int x, int y) {
-    
-  }
-
-  public void mouseEntered(int x, int y) {
-    
-  }
-
-  public void mouseExited(int x, int y) {
-    
-  }
+//  public void mousePressed(int x, int y) {
+// 
+// }
+//
+//  public void mouseDragged(int x, int y) {
+//   
+//  }
+//
+//  public void mouseReleased(int x, int y) {
+//    
+//  }
+//
+//  public void mouseMoved(int x, int y) {
+//   
+//  }
+//
+//  private void mouseEnteredOrExited(String msg, int x, int y) {
+//    
+//  }
+//
+//  public void mouseEntered(int x, int y) {
+//    
+//  }
+//
+//  public void mouseExited(int x, int y) {
+//    
+//  }
 
   public void keyPressed(char key) {
     if (key==LEFT && steveo.posX>5) steveo.posX-=5;
@@ -111,11 +104,8 @@ public class AddingWithLion extends JComponentWithEvents{
     page.fillRect(0, 0, getWidth(), getHeight()/2); 
     page.setColor(Color.green);
     page.fillRect(0, getHeight()/2, getWidth(), getHeight()); 
-    
     drawCharacter(page, steveo); 
     drawCharacter(page, lion); 
-//    for(int i = 0; i < images.size(); i++) {
-//      drawImage(page, lion.img(), (int)(Math.random()*getWidth()), (int)(Math.random()*getHeight()), 1, rad);
     }
   
 
