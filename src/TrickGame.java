@@ -34,8 +34,8 @@ public class TrickGame extends JComponentWithEvents {
     //if(tyrone.posX + tyrone.width > wWidth || tyrone.posY < 0)
       //nextRow(tyrone);
     checkBallPos(ball);
-    ball.move();
     handleCollision(tyrone, ball);
+    ball.move();
     //tyrone.rotate(0.2);
   }
   
@@ -108,7 +108,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void cBounce(Character c, int v) {
-    c.setVelocity(c.velocityX, (int)((c.velocityY*(-1) + v)*0.9));
+    c.setVelocity(c.velocityX, (int)((c.velocityY*(-1) + v)));
   }
   
   public void cLand(Character c) {
