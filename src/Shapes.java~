@@ -10,14 +10,14 @@ public class Shapes extends JComponentWithEvents{
   private Color shapeColor;
   private Color[] colorOptions = {Color.red, Color.blue, Color.green, Color.yellow};
   public String fireImage = "Resources/fire.png";
-  //Icon fire = new Icon(getImageFromFile(fireImage));
-  int xFirePos[];
-  int yFirePos[];
-  int fires = 6;
+  private char[][] spaces = new char[10][10];
+  private int rows = 10;
+  private int cols = 10;
   
   public void Shapes(){
-    //getImageFromFile(lava);
-    
+    for(int i=0; i<800; i+=80)
+      for(int j=0; j<800; j+=80)
+         spaces[i][j] = 'e';
   }
   
   public void randomNumber(){
@@ -31,17 +31,29 @@ public class Shapes extends JComponentWithEvents{
   }
   
   public void placeFire(){
-    Random fireSpot = new Random();
+    Random firePosition = new Random();
+    int fires = firePosition.nextInt(5)+5;
     for(int i=0; i<fires; i++){
-      xFirePos[i] = fireSpot.nextInt(getWidth()-120)+60;
-      yFirePos[i] = fireSpot.nextInt(getHeight()-120)+60;
+      int xFire = firePosition.nextInt(9)+1;
+      int yFire = firePosition.nextInt(10);
+      spaces[xFire][yFire] = 'f';
     }
+  }
+  
+  public void placeBases(){
+    Random basePosition = new Random();
+    int ySpot = basePosition.nextInt(10);
+    spaces[0][ySpot] = 'b';
+    ySpot = basePosition.nextInt(10);
+    spaces[9][ySpot] = 'b';
   }
   
   public void start(){
     randomNumber();
     randomColor();
     placeFire();
+    placeBases();
+    System.out.println(Arrays.deepToString(spaces));
   }
   
   public void reset(){
@@ -59,21 +71,35 @@ public class Shapes extends JComponentWithEvents{
   public void paint(Graphics2D page){
     page.setColor(Color.orange);
     page.fillRect(0,0,getWidth(),getHeight());
-    page.setColor(Color.gray);
-    page.fillRect(getWidth()-60, getHeight()/2-30, 60, 60);
-    page.fillRect(0, getHeight()/2-30, 60, 60);
     page.setColor(Color.black);
-    page.setFont(new Font("Arial", Font.BOLD, 20));
+    page.setFont(new Font("Arial", Font.BOLD, 15));
     page.drawString("Sides: " + sides, 10, 20);
-    paintTriangle(page, 40, 40, 60, shapeColor);
-    paintSquare(page, 80, 80, 60, shapeColor);
-    paintPenta(page, 200, 200, 60, shapeColor);
-    paintHexa(page, 300, 300, 60, shapeColor);
-    paintFire(page, fireImage, xFirePos, yFirePos);
+    for(int i=0; i<rows; i++)
+      for(int j=0; j<cols; j++){
+        if(spaces[i][j] == 'b') paintBase(page, i, j);
+        if(spaces[i][j] == 'f') paintFire(page, fireImage, i, j);
+      }
+    //paintTriangle(page, 40, 40, 60, shapeColor);
+    //paintSquare(page, 80, 80, 60, shapeColor);
+    //paintPenta(page, 200, 200, 50, shapeColor);
+    //paintHexa(page, 300, 300, 40, shapeColor);
+    paintGrid(page);
+  }
+  
+  public void paintGrid(Graphics2D page){
+    page.setColor(Color.black);
+    for(int i=0; i<800; i+=80)
+      for(int j=0; j<800; j+=80)
+        page.drawRect(i, j, i+80, j+80);
+  }
+  
+  public void paintBase(Graphics2D page, int x, int y){
+    page.setColor(Color.gray);
+    page.fillRect((x*80)+10, (y*80)+10, 60, 60); 
   }
   
   public void paintFire(Graphics2D page, String fireImage, int x, int y){
-    drawImage(page, fireImage, x, y, .1, 0);
+    drawImage(page, fireImage, (x*80)+15, (y*80)+10, .1, 0);
   }  
   
   public void paintTriangle(Graphics2D page, int x1, int y1, int sideLength, Color color){
@@ -146,5 +172,5 @@ public class Shapes extends JComponentWithEvents{
     page.fillOval(x1-5, y1-5, 10, 10);
   }
   
-  public static void main(String[] args){launch(800,600);}
+  public static void main(String[] args){launch(800,800);}
 }
