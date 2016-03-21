@@ -15,12 +15,16 @@ public class Shapes extends JComponentWithEvents{
   public String fireImage = "Resources/fire.png";
   public String strawberry = "Resources/Steve the Strawberry.png";
   private char[][] spaces = new char[10][10];
+  private char[][] steve = new char[10][10];
   private int rows = 10;
   private int cols = 10;
   private int steveX;
   private int steveY;
   private int lastPathX;
   private int lastPathY;
+  private char shapeSelection = ' ';
+  private boolean select = true;
+  private boolean place = false;
   
   PaintShapes shape = new PaintShapes();
   
@@ -59,6 +63,7 @@ public class Shapes extends JComponentWithEvents{
     spaces[0][ySpot] = 'b';
     steveX = 0;
     steveY = ySpot;
+    steve[steveX][steveY] = 's';
     ySpot = basePosition.nextInt(10);
     spaces[9][ySpot] = 'b';
   }
@@ -81,6 +86,20 @@ public class Shapes extends JComponentWithEvents{
   }
   
   public void mousePressed(int x, int y){
+    if(select){
+      if((x>250 && x<330) && (y>790 && y<870)) shapeSelection = 't';
+      else if((x>330 && x<410) && (y>790 && y<870)) shapeSelection = 's';
+      else if((x>418 && x<500) && (y>790 && y<870)) shapeSelection = 'p';
+      else if((x>500 && x<580) && (y>790 && y<870)) shapeSelection = 'h';
+      else shapeSelection = 0;
+      select = false;
+      place = true;
+    }
+    if(place){
+      lastPathX = (int)x/80;
+      lastPathY = (int)y/80;
+      spaces[lastPathX][lastPathY] = shapeSelection;
+    }
   }
   
   public void paint(Graphics2D page){
@@ -95,8 +114,12 @@ public class Shapes extends JComponentWithEvents{
       for(int j=0; j<cols; j++){
         if(spaces[i][j] == 'b') paintBase(page, i, j);
         if(spaces[i][j] == 'f') paintFire(page, fireImage, i, j);
+        if(steve[i][j] == 's') paintSteve(page, strawberry, i, j);
+        if(spaces[i][j] == 't') shape.paintTriangle(page, (i*80)+10, ((j+1)*80)-10, 60, triShapeColor);
+        if(spaces[i][j] == 's') shape.paintSquare(page, (i*80)+10, ((j+1)*80)-10, 60, squShapeColor);
+        if(spaces[i][j] == 'p') shape.paintPenta(page, (i*80)+18, ((j+1)*80)-6, 45, pentShapeColor);
+        if(spaces[i][j] == 'h') shape.paintHexa(page, (i*80)+22, ((j+1)*80)-8, 35, hexShapeColor);
       }
-    paintSteve(page, strawberry, steveX, steveY);
     shape.paintTriangle(page, 250, 870, 60, triShapeColor);
     shape.paintSquare(page, 330, 870, 60, squShapeColor);
     shape.paintPenta(page, 418, 870, 45, pentShapeColor);
