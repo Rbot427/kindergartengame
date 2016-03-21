@@ -138,7 +138,7 @@ public class TrickGame extends JComponentWithEvents {
     drawImage(page, background, 0, 0, 1, 0);
     drawCharacter(page, tyrone);
     drawCharacter(page, ball);
-    page.setColor(Color.gray); page.fillRect(ball.posX, wHeight-3, ((wHeight-ball.posY)/5), 3);
+    page.setColor(Color.gray); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
   }
 
   // Main Standard Method

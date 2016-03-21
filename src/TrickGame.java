@@ -34,6 +34,8 @@ public class TrickGame extends JComponentWithEvents {
   }
 
   public void timerFired() {
+    if(tyrone.posY+tyrone.height > wHeight)
+      landCharacter(tyrone);
     tyrone.move();
     //if(tyrone.posX + tyrone.width > wWidth || tyrone.posY < 0)
       //nextRow(tyrone);
@@ -110,9 +112,14 @@ public class TrickGame extends JComponentWithEvents {
   public void keyPressed(char key) {
     if(key == ' ') cJump(tyrone);
     else if(key == 'l') cLand(tyrone);
-    else if(key == LEFT) tyrone.setPos(tyrone.posX - 1, tyrone.posY);
-    else if(key == RIGHT) tyrone.setPos(tyrone.posX + 1, tyrone.posY);
+    else if(key == LEFT) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
+    else if(key == RIGHT) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
     else if(key == 'p') ball.setPos(0,0);
+  }
+  
+  public void landCharacter(Character c) {
+    cLand(c);
+    c.setPos(c.posX, wHeight-c.height);
   }
   
   public void cBounce(Character c, int v) {
