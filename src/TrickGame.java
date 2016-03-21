@@ -11,6 +11,8 @@ public class TrickGame extends JComponentWithEvents {
   Character ball;
   String tyroneImage = "Resources/Tyrone the Turtle Skateboard.png";
   String ballImage = "Resources/Ball.png";
+  String backgroundImage = "Resources/Background.png";
+  Image background;
   
   public void start() {
     init();
@@ -20,6 +22,7 @@ public class TrickGame extends JComponentWithEvents {
   
   public void init() {
     frame.setTitle("Trick Master Tyrone (LITE)");
+    background = getImageFromFile(backgroundImage);
     tyrone = new Character(getImageFromFile(tyroneImage));
     //tyrone.setVelocity(cSpeed,0);
     tyrone.setScale(0.5);
@@ -127,8 +130,10 @@ public class TrickGame extends JComponentWithEvents {
   
   public void paint(Graphics2D page) {
     page.setColor(Color.blue); page.fillRect(0, 0, wWidth, wHeight);
+    drawImage(page, background, 0, 0, 1, 0);
     drawCharacter(page, tyrone);
     drawCharacter(page, ball);
+    page.setColor(Color.gray); page.fillRect(ball.posX, wHeight-3, ball.width, 3);
   }
 
   // Main Standard Method
