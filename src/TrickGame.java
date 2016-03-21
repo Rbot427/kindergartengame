@@ -13,6 +13,7 @@ public class TrickGame extends JComponentWithEvents {
   String ballImage = "Resources/Ball.png";
   String backgroundImage = "Resources/Background.png";
   Image background;
+  boolean ballDidHit = false;
   
   public void start() {
     init();
@@ -76,8 +77,12 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void handleCollision(Character c1, Character c2) {
-    if(checkCollision(c1, c2))
+    if(checkCollision(c1, c2) && !ballDidHit) {
          cBounce(c2, c1.velocityY);
+         ballDidHit = true;
+    }
+    else
+      ballDidHit = false;
   }
   
   public boolean checkCollision(Character c1, Character c2) {
