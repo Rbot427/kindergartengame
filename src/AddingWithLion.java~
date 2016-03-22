@@ -75,11 +75,14 @@ public class AddingWithLion extends JComponentWithEvents{
       reset(); 
   }
   public void steveoFall(){
+    while(steveo.posY<=getHeight()/2){
+      steveo.posY+=75;
+    }
   }
   public void steveoJump(){
-    steveo.posY-=75; 
-    if (steveo.posY<=0)
-      steveoFall();
+    steveo.setVelocity(0, -75); 
+    steveo.setAcceleration(0, -10); 
+    steveoFall();
   }
   
   public void start() {
