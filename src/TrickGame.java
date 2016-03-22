@@ -13,7 +13,7 @@ public class TrickGame extends JComponentWithEvents {
   String ballImage = "Resources/Ball.png";
   String backgroundImage = "Resources/Background.png";
   Image background;
-  boolean ballDidHit = false;
+  boolean ballDidHit = false, spaceHeld = false, arrowHeld = false;
   
   public void start() {
     init();
@@ -79,12 +79,19 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void handleCollision(Character c1, Character c2) {
-    if(checkCollision(c1, c2) && !ballDidHit) {
+    if(checkCollision(c1, c2)) {
+      if(!ballDidHit) {
          cBounce(c2, c1.velocityY);
          ballDidHit = true;
+      }
     }
-    else
+    else 
       ballDidHit = false;
+  }
+  
+  public void keyReleased(char key) {
+    if(key == ' ') spaceHeld = false;
+    else if(key == LEFT) arrowHeld = false;
   }
   
   public boolean checkCollision(Character c1, Character c2) {
@@ -145,7 +152,7 @@ public class TrickGame extends JComponentWithEvents {
     drawImage(page, background, 0, 0, 1, 0);
     drawCharacter(page, tyrone);
     drawCharacter(page, ball);
-    page.setColor(Color.gray); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
+    page.setColor(Color.blue); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
   }
 
   // Main Standard Method
