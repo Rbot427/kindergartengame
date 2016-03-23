@@ -11,7 +11,7 @@ public class Shapes extends JComponentWithEvents{
   private Color squShapeColor;
   private Color pentShapeColor;
   private Color hexShapeColor;
-  private Color[] colorOptions = {Color.red, Color.blue, Color.green, Color.yellow};
+  private Color[] colorOptions = {Color.red, Color.blue, Color.green, Color.cyan, Color.magenta, Color.black};
   public String fireImage = "Resources/fire.png";
   public String strawberry = "Resources/Steve the Strawberry.png";
   private char[][] spaces = new char[10][10];
@@ -41,15 +41,15 @@ public class Shapes extends JComponentWithEvents{
   
   public void randomColor(){
     Random color = new Random();
-    triShapeColor = colorOptions[color.nextInt(4)];
-    squShapeColor = colorOptions[color.nextInt(4)];
-    pentShapeColor = colorOptions[color.nextInt(4)];
-    hexShapeColor = colorOptions[color.nextInt(4)];
+    triShapeColor = colorOptions[color.nextInt(6)];
+    squShapeColor = colorOptions[color.nextInt(6)];
+    pentShapeColor = colorOptions[color.nextInt(6)];
+    hexShapeColor = colorOptions[color.nextInt(6)];
   }
   
   public void placeFire(){
     Random firePosition = new Random();
-    int fires = firePosition.nextInt(5)+5;
+    int fires = firePosition.nextInt(5)+10;
     for(int i=0; i<fires; i++){
       int xFire = firePosition.nextInt(9)+1;
       int yFire = firePosition.nextInt(10);
@@ -73,16 +73,22 @@ public class Shapes extends JComponentWithEvents{
     randomColor();
     placeFire();
     placeBases();
-    System.out.println(Arrays.deepToString(spaces));
   }
   
   public void reset(){
+    for(int i=0; i<10; i++)
+      for(int j=0; j<10; j++){
+        steve[i][j] = ' ';
+        spaces[i][j] = ' ';
+      }
+    start();
   }
   
   public void timerFired(){
   }
   
-  public void keyPressed(){
+  public void keyPressed(char key){
+    if(key == 'r') reset();
   }
   
   public void mousePressed(int x, int y){
@@ -92,13 +98,23 @@ public class Shapes extends JComponentWithEvents{
       else if((x>418 && x<500) && (y>790 && y<870)) shapeSelection = 'p';
       else if((x>500 && x<580) && (y>790 && y<870)) shapeSelection = 'h';
       else shapeSelection = 0;
-      select = false;
-      place = true;
+      if(shapeSelection != 0){
+        select = false;
+        place = true;
+      }
     }
-    if(place){
+    else if(place && shapeSelection != 0){
       lastPathX = (int)x/80;
       lastPathY = (int)y/80;
-      spaces[lastPathX][lastPathY] = shapeSelection;
+      if(lastPathX<10 && lastPathY < 10){
+        spaces[lastPathX][lastPathY] = shapeSelection;
+        steve[steveX][steveY] = ' ';
+        steveX = lastPathX;
+        steveY = lastPathY;
+        steve[steveX][steveY] = 's';
+      }
+      select = true;
+      place = false;
     }
   }
   
@@ -114,11 +130,11 @@ public class Shapes extends JComponentWithEvents{
       for(int j=0; j<cols; j++){
         if(spaces[i][j] == 'b') paintBase(page, i, j);
         if(spaces[i][j] == 'f') paintFire(page, fireImage, i, j);
-        if(steve[i][j] == 's') paintSteve(page, strawberry, i, j);
         if(spaces[i][j] == 't') shape.paintTriangle(page, (i*80)+10, ((j+1)*80)-10, 60, triShapeColor);
         if(spaces[i][j] == 's') shape.paintSquare(page, (i*80)+10, ((j+1)*80)-10, 60, squShapeColor);
         if(spaces[i][j] == 'p') shape.paintPenta(page, (i*80)+18, ((j+1)*80)-6, 45, pentShapeColor);
         if(spaces[i][j] == 'h') shape.paintHexa(page, (i*80)+22, ((j+1)*80)-8, 35, hexShapeColor);
+        if(steve[i][j] == 's') paintSteve(page, strawberry, i, j);
       }
     shape.paintTriangle(page, 250, 870, 60, triShapeColor);
     shape.paintSquare(page, 330, 870, 60, squShapeColor);
