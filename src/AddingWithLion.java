@@ -13,10 +13,15 @@ public class AddingWithLion extends JComponentWithEvents{
   Character lion; 
   Character lion2; 
   Character steveo; 
+  Character lemonPoop; 
+  int lemonPoopX = lion.posX;
+  int lemonPoopY = lion.posY; 
+  int lemonPoopRadius = 10; 
+  int lemonPoopSpeed = 5; 
   boolean up = false;
   boolean up2 = true; 
   public int maxHeight = (int) (getHeight()-200);
-  public int number1, number2, number3, number4, number5; 
+  public int number1, number2, number3, number4, number5, number6, number7; 
   
   public void lemon(){
     lion = new Character(getImageFromFile(lionPic)); 
@@ -83,7 +88,21 @@ public class AddingWithLion extends JComponentWithEvents{
     number2 = random.nextInt(6);
     number3 = random.nextInt(6);
     number4 = random.nextInt(6); 
+    number5 = random.nextInt(6); 
+    number6 = random.nextInt(6);
+    number7 = random.nextInt(6);
   }
+  
+  public void lemonPoop(){
+    if (up){
+      lemonPoopY+=lemonPoopSpeed;
+    }
+//      lemonPoop.posX = lion.posX;
+//      lemonPoop.posY = lion.posY; 
+//      lemonPoop.setVelocity(0, 75); 
+//      lemonPoop.setAcceleration(0, 10); 
+    }
+      
     
 //  public void steveoFall(){
 //    while(steveo.posY<=getHeight()/2){
@@ -99,6 +118,7 @@ public class AddingWithLion extends JComponentWithEvents{
   
   public void start() {
     reset(); 
+    setNumbers(); 
   }
   
   public void reset(){
@@ -115,7 +135,8 @@ public class AddingWithLion extends JComponentWithEvents{
     lion2.move(); 
     lionBounce(); 
     lion2Bounce(); 
-    setNumbers(); 
+    lemonPoop(); 
+    //setNumbers(); 
   }
 
 //  public void mousePressed(int x, int y) {
@@ -179,9 +200,23 @@ public class AddingWithLion extends JComponentWithEvents{
     page.setColor(Color.black);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
     page.drawString(Integer.toString(number3),520,120);
-    page.setColor(Color.pink);
+    page.setColor(Color.magenta);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
     page.drawString(Integer.toString(number4),740,905);
+    page.setColor(Color.white);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(number5),960,120);
+    page.setColor(Color.orange);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(number6),1080,905);
+    page.setColor(Color.green);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(number7),1300,120);
+    if (lemonPoopY!= lion.posY){
+      page.setColor(Color.darkGray); 
+      page.fillOval(lemonPoopX, lemonPoopY, lemonPoopRadius, lemonPoopRadius); 
+    }
+      
     }
   
 
