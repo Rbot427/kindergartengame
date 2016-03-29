@@ -23,6 +23,7 @@ public class Shapes extends JComponentWithEvents{
   private int lastPathX;
   private int lastPathY;
   private char shapeSelection = ' ';
+  private int ySpot;
   private boolean select = true;
   private boolean place = false;
   
@@ -59,7 +60,7 @@ public class Shapes extends JComponentWithEvents{
   
   public void placeBases(){
     Random basePosition = new Random();
-    int ySpot = basePosition.nextInt(10);
+    ySpot = basePosition.nextInt(10);
     spaces[0][ySpot] = 'b';
     steveX = 0;
     steveY = ySpot;
@@ -93,6 +94,14 @@ public class Shapes extends JComponentWithEvents{
   
   public void mousePressed(int x, int y){
     if(select){
+      shapeSelection(x, y);
+    }
+    else if(place && shapeSelection != 0){
+      decideToPlace(x, y);
+    }
+  }
+  
+  public void shapeSelection(int x, int y){
       if((x>250 && x<330) && (y>790 && y<870)) shapeSelection = 't';
       else if((x>330 && x<410) && (y>790 && y<870)) shapeSelection = 's';
       else if((x>418 && x<500) && (y>790 && y<870)) shapeSelection = 'p';
@@ -102,21 +111,38 @@ public class Shapes extends JComponentWithEvents{
         select = false;
         place = true;
       }
-    }
-    else if(place && shapeSelection != 0){
+  }
+  
+  public void decideToPlace(int x, int y){
       lastPathX = (int)x/80;
       lastPathY = (int)y/80;
-      if(lastPathX<10 && lastPathY < 10){
-        spaces[lastPathX][lastPathY] = shapeSelection;
-        steve[steveX][steveY] = ' ';
-        steveX = lastPathX;
-        steveY = lastPathY;
-        steve[steveX][steveY] = 's';
+      if(lastPathX<10 && lastPathY<10){
+        if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
+          if(shapeSelection == 't' && sides == 3 || shapeSelection == 's' && sides == 4 || shapeSelection == 'p' && sides == 5 || shapeSelection == 'h' && sides == 6){
+            spaces[lastPathX][lastPathY] = shapeSelection;
+            steve[steveX][steveY] = ' ';
+            steveX = lastPathX;
+            steveY = lastPathY;
+            steve[steveX][steveY] = 's';
+            randomNumber();
+          }
+          else spaces[lastPathX][lastPathY] = 'f';
+        }
+        else spaces[lastPathX][lastPathY] = 'f';
       }
       select = true;
       place = false;
-    }
+      if((steveX==9 && (steveY+1 == ySpot || steveY-1 == ySpot)) || (steveY == ySpot && steveX+1 == 9)){
+        steve[steveX][steveY] = ' ';
+        steveX = 9;
+        steveY = ySpot;
+        steve[steveX][steveY] = 's';
+      }
   }
+  
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Paint methods
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   public void paint(Graphics2D page){
     page.setColor(Color.orange);
