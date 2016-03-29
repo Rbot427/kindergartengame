@@ -13,11 +13,11 @@ public class AddingWithLion extends JComponentWithEvents{
   Character lion; 
   Character lion2; 
   Character steveo; 
-  Character lemonPoop; 
-  int lemonPoopX = lion.posX;
-  int lemonPoopY = lion.posY; 
-  int lemonPoopRadius = 10; 
-  int lemonPoopSpeed = 5; 
+//  Character lemonPoop; 
+//  int lemonPoopX = lion.posX;
+//  int lemonPoopY = lion.posY; 
+//  int lemonPoopRadius = 10; 
+//  int lemonPoopSpeed = 5; 
   boolean up = false;
   boolean up2 = true; 
   public int maxHeight = (int) (getHeight()-200);
@@ -93,15 +93,15 @@ public class AddingWithLion extends JComponentWithEvents{
     number7 = random.nextInt(6);
   }
   
-  public void lemonPoop(){
-    if (up){
-      lemonPoopY+=lemonPoopSpeed;
-    }
+//  public void lemonPoop(){
+//    if (up){
+//      lemonPoopY+=lemonPoopSpeed;
+//    }
 //      lemonPoop.posX = lion.posX;
 //      lemonPoop.posY = lion.posY; 
 //      lemonPoop.setVelocity(0, 75); 
 //      lemonPoop.setAcceleration(0, 10); 
-    }
+//    }
       
     
 //  public void steveoFall(){
@@ -135,7 +135,7 @@ public class AddingWithLion extends JComponentWithEvents{
     lion2.move(); 
     lionBounce(); 
     lion2Bounce(); 
-    lemonPoop(); 
+//    lemonPoop(); 
     //setNumbers(); 
   }
 
@@ -212,10 +212,10 @@ public class AddingWithLion extends JComponentWithEvents{
     page.setColor(Color.green);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
     page.drawString(Integer.toString(number7),1300,120);
-    if (lemonPoopY!= lion.posY){
-      page.setColor(Color.darkGray); 
-      page.fillOval(lemonPoopX, lemonPoopY, lemonPoopRadius, lemonPoopRadius); 
-    }
+//    if (lemonPoopY!= lion.posY){
+//      page.setColor(Color.darkGray); 
+//      page.fillOval(lemonPoopX, lemonPoopY, lemonPoopRadius, lemonPoopRadius); 
+//    }
       
     }
   
