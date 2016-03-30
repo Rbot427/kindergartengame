@@ -14,11 +14,12 @@ public class TrickGame extends JComponentWithEvents {
   String backgroundImage = "Resources/Background.png";
   Image background;
   boolean ballDidHit = false, spaceHeld = false, arrowHeld = false;
+  Color[] rainbow = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.pink};
+  int rainbowIndex = 0;
   
   public void start() {
     init();
     setTimerDelay(25);
-    System.out.println(tyrone.height);
   }
   
   public void init() {
@@ -42,6 +43,7 @@ public class TrickGame extends JComponentWithEvents {
     checkBallPos(ball);
     handleCollision(tyrone, ball);
     ball.move();
+    rainbowIndex = (rainbowIndex + 1)%rainbow.length;
     //tyrone.rotate(0.2);
   }
   
@@ -152,7 +154,7 @@ public class TrickGame extends JComponentWithEvents {
     drawImage(page, background, 0, 0, 1, 0);
     drawCharacter(page, tyrone);
     drawCharacter(page, ball);
-    page.setColor(Color.blue); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
+    page.setColor(rainbow[rainbowIndex]); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
   }
 
   // Main Standard Method

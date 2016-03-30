@@ -9,13 +9,17 @@ public class TrickGame extends JComponentWithEvents {
   public int cSpeed = 10;
   Character tyrone;
   Character ball;
+  int score = 1;
   String tyroneImage = "Resources/Tyrone the Turtle Skateboard.png";
   String ballImage = "Resources/Ball.png";
   String backgroundImage = "Resources/Background.png";
   Image background;
   boolean ballDidHit = false, spaceHeld = false, arrowHeld = false;
+  boolean tyroneAirborne = false;
+  boolean correctResponse = false;
   Color[] rainbow = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.pink};
   int rainbowIndex = 0;
+  String response = "";
   
   public void start() {
     init();
@@ -32,11 +36,17 @@ public class TrickGame extends JComponentWithEvents {
     ball = new Character(getImageFromFile(ballImage), 200, 200);
     ball.setVelocity(5,5);
     ball.setAcceleration(ball.accelX, 1);
+    gameOver = false;
+    correctResponse = false;
+    response = "";
+    score = 1;
   }
 
   public void timerFired() {
-    if(tyrone.posY+tyrone.height > wHeight)
+    if(tyrone.posY+tyrone.height > wHeight) {
+      tyroneAirborne = false;
       landCharacter(tyrone);
+    }
     tyrone.move();
     //if(tyrone.posX + tyrone.width > wWidth || tyrone.posY < 0)
       //nextRow(tyrone);
@@ -84,6 +94,7 @@ public class TrickGame extends JComponentWithEvents {
     if(checkCollision(c1, c2)) {
       if(!ballDidHit) {
          cBounce(c2, c1.velocityY);
+         score++;
          ballDidHit = true;
       }
     }
@@ -94,6 +105,15 @@ public class TrickGame extends JComponentWithEvents {
   public void keyReleased(char key) {
     if(key == ' ') spaceHeld = false;
     else if(key == LEFT) arrowHeld = false;
+  }
+  
+  public void announceScore() {
+    
+  }
+  
+  public void addScore() {
+    score++;
+    announceScore();
   }
   
   public boolean checkCollision(Character c1, Character c2) {
@@ -113,17 +133,34 @@ public class TrickGame extends JComponentWithEvents {
       ball.setVelocity(ball.velocityX*(-1), ball.velocityY);
     }
     if(ball.posY + ball.height > wHeight) {
-      ball.setPos(ball.posX, wHeight-ball.height-1);
-      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1) *(0.9)));
+      gameOver = true;
+      /*ball.setPos(ball.posX, wHeight-ball.height-1);
+      ball.setVelocity(ball.velocityX, (int)(ball.velocityY * (-1) *(0.9)));*/
     }
   }
   
   public void keyPressed(char key) {
-    if(key == ' ') cJump(tyrone);
-    else if(key == 'l') cLand(tyrone);
+    if(!gameOver) {
+    if(key == ' ' && tyroneAirborne == false) {cJump(tyrone); tyroneAirborne = true;}
     else if(key == LEFT) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
     else if(key == RIGHT) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
-    else if(key == 'p') ball.setPos(0,0);
+    }
+    else
+    {
+      if(key == ENTER) submitResponse();
+      if(java.lang.Character.isDigit(key)) response += key;
+      if(key == SPACE && correctResponse == true) init();
+    }
+  }
+  
+  public void submitResponse() {
+    int number = Integer.parseInt(response);
+    if(number == score-1) 
+      correctResponse = true;
+    else {
+      correctResponse = false;
+      response = "";
+    }
   }
   
   public void landCharacter(Character c) {
@@ -150,11 +187,27 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void paint(Graphics2D page) {
+    if(!gameOver) {
     page.setColor(Color.blue); page.fillRect(0, 0, wWidth, wHeight);
     drawImage(page, background, 0, 0, 1, 0);
     drawCharacter(page, tyrone);
     drawCharacter(page, ball);
+    page.setFont(new Font("Ariel", Font.BOLD, 20)); page.drawString("Hits: " + score, wWidth/2 - getStringWidth(page, page.getFont(), "Hits: " + score), 20);
     page.setColor(rainbow[rainbowIndex]); page.fillRect(ball.posX + (ball.width-((wHeight-ball.posY)/5))/2, wHeight-3, ((wHeight-ball.posY)/5), 3);
+    }
+    else
+    {
+      page.drawString("Impressive!  You got " + score + " hits!", 0, 20);
+      page.drawString("What number comes before " + score + "?", 0, 40);
+      page.drawString("Type your response: " + response, 0, 60);
+      if(correctResponse) {
+        page.drawString("Correct!  Press space to play again", 0, 80);
+      }
+      else {
+        page.drawString("Nope!  Try again", 0, 80);
+      }
+      
+    }
   }
 
   // Main Standard Method
