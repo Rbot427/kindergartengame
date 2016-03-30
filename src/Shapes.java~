@@ -12,6 +12,7 @@ public class Shapes extends JComponentWithEvents{
   private Color pentShapeColor;
   private Color hexShapeColor;
   private Color[] colorOptions = {Color.red, Color.blue, Color.green, Color.cyan, Color.magenta, Color.black};
+  private String[] colorNames = {"red", "blue", "green", "cyan", "magenta", "black"};
   public String fireImage = "Resources/fire.png";
   public String strawberry = "Resources/Steve the Strawberry.png";
   private char[][] spaces = new char[10][10];
@@ -26,6 +27,11 @@ public class Shapes extends JComponentWithEvents{
   private int ySpot;
   private boolean select = true;
   private boolean place = false;
+  private int[] printOut = {0,1,2};
+  private String[] shapes = {"triangle", "square", "pentagon", "hexagon"};
+  String colorSelection;
+  String shapeChoice;
+  String print;
   
   PaintShapes shape = new PaintShapes();
   
@@ -35,17 +41,38 @@ public class Shapes extends JComponentWithEvents{
          spaces[i][j] = 'e';
   }
   
-  public void randomNumber(){
+  public String randomNumber(){
     Random random = new Random();
     sides = random.nextInt(4)+3;
+    System.out.println(Integer.toString(sides));
+    return Integer.toString(sides);
   }
   
-  public void randomColor(){
+  public String randomColor(){
     Random color = new Random();
+    colorSelection = colorNames[color.nextInt(6)];
     triShapeColor = colorOptions[color.nextInt(6)];
     squShapeColor = colorOptions[color.nextInt(6)];
     pentShapeColor = colorOptions[color.nextInt(6)];
     hexShapeColor = colorOptions[color.nextInt(6)];
+    return colorSelection;
+  }
+  
+  public String randomShape(){
+    Random shape = new Random();
+    shapeChoice = shapes[shape.nextInt(4)];
+    return shapeChoice;
+  }
+  
+  public void setPrintOut(){
+    Random option = new Random();
+    int choice = printOut[option.nextInt(3)];
+    if(choice == 0)
+      print = randomNumber();
+    if(choice == 1)
+      print = randomColor();
+    if(choice == 2)
+      print = randomShape();
   }
   
   public void placeFire(){
@@ -70,7 +97,7 @@ public class Shapes extends JComponentWithEvents{
   }
   
   public void start(){
-    randomNumber();
+    setPrintOut();
     randomColor();
     placeFire();
     placeBases();
@@ -116,19 +143,22 @@ public class Shapes extends JComponentWithEvents{
   public void decideToPlace(int x, int y){
       lastPathX = (int)x/80;
       lastPathY = (int)y/80;
-      if(lastPathX<10 && lastPathY<10){
-        if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
-          if(shapeSelection == 't' && sides == 3 || shapeSelection == 's' && sides == 4 || shapeSelection == 'p' && sides == 5 || shapeSelection == 'h' && sides == 6){
-            spaces[lastPathX][lastPathY] = shapeSelection;
-            steve[steveX][steveY] = ' ';
-            steveX = lastPathX;
-            steveY = lastPathY;
-            steve[steveX][steveY] = 's';
-            randomNumber();
+      if(spaces[lastPathX][lastPathY] != 'f'){
+        if(lastPathX<10 && lastPathY<10){
+          if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
+            if(shapeSelection == 't' && sides == 3 || shapeSelection == 's' && sides == 4 || shapeSelection == 'p' && sides == 5 || shapeSelection == 'h' && sides == 6){
+              spaces[lastPathX][lastPathY] = shapeSelection;
+              steve[steveX][steveY] = ' ';
+              steveX = lastPathX;
+              steveY = lastPathY;
+              steve[steveX][steveY] = 's';
+              setPrintOut();
+            }
+            else spaces[lastPathX][lastPathY] = 'f';
           }
           else spaces[lastPathX][lastPathY] = 'f';
         }
-        else spaces[lastPathX][lastPathY] = 'f';
+        randomColor();
       }
       select = true;
       place = false;
@@ -149,9 +179,10 @@ public class Shapes extends JComponentWithEvents{
     page.fillRect(0,0,getWidth(),getHeight());
     page.setColor(Color.black);
     page.setFont(new Font("Arial", Font.BOLD, 15));
-    page.drawString("Sides: " + sides, 10, 20);
     page.setColor(Color.white);
     page.fillRect(0, 800, 800, 80);
+    page.setColor(Color.black);
+    page.drawString("Choose " + print, 10, getHeight()-10);
     for(int i=0; i<rows; i++)
       for(int j=0; j<cols; j++){
         if(spaces[i][j] == 'b') paintBase(page, i, j);
