@@ -40,6 +40,7 @@ public class TrickGame extends JComponentWithEvents {
     correctResponse = false;
     response = "";
     score = 1;
+    announceScore();
   }
 
   public void timerFired() {
@@ -94,7 +95,7 @@ public class TrickGame extends JComponentWithEvents {
     if(checkCollision(c1, c2)) {
       if(!ballDidHit) {
          cBounce(c2, c1.velocityY);
-         score++;
+         addScore();
          ballDidHit = true;
       }
     }
@@ -108,7 +109,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void announceScore() {
-    
+    play("Resources/" + score + ".wav");
   }
   
   public void addScore() {
