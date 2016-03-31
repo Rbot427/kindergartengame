@@ -177,12 +177,12 @@ public class Shapes extends JComponentWithEvents{
   public void paint(Graphics2D page){
     page.setColor(Color.orange);
     page.fillRect(0,0,getWidth(),getHeight());
-    page.setColor(Color.black);
-    page.setFont(new Font("Arial", Font.BOLD, 15));
     page.setColor(Color.white);
     page.fillRect(0, 800, 800, 80);
     page.setColor(Color.black);
-    page.drawString("Choose " + print, 10, getHeight()-10);
+    page.setFont(new Font("Arial", Font.BOLD, 25));
+    page.drawString("Choose a " + print, 10, getHeight()-32);
+    if(choice == 0) page.drawString("sided shape", 10, getHeight()-10);
     for(int i=0; i<rows; i++)
       for(int j=0; j<cols; j++){
         if(spaces[i][j] == 'b') paintBase(page, i, j);
