@@ -14,16 +14,24 @@ public class TrickGame extends JComponentWithEvents {
   String ballImage = "Resources/Ball.png";
   String backgroundImage = "Resources/Background.png";
   Image background;
-  boolean ballDidHit = false, spaceHeld = false, arrowHeld = false;
+  boolean ballDidHit = false, spaceHeld = false, leftHeld = false, rightHeld = false;
+  int timerDelay = 25;
   boolean tyroneAirborne = false;
   boolean correctResponse = false;
   Color[] rainbow = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.pink};
   int rainbowIndex = 0;
   String response = "";
   
+  //TODO:  Organize methods
+  
   public void start() {
     init();
     setTimerDelay(25);
+  }
+  
+  public void setTimerDelay(int delay) {
+    super.setTimerDelay(delay);
+    timerDelay = delay;
   }
   
   public void init() {
@@ -44,6 +52,8 @@ public class TrickGame extends JComponentWithEvents {
   }
 
   public void timerFired() {
+    if(leftHeld) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
+    if(rightHeld) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
     if(tyrone.posY+tyrone.height > wHeight) {
       tyroneAirborne = false;
       landCharacter(tyrone);
@@ -62,34 +72,6 @@ public class TrickGame extends JComponentWithEvents {
     c.setPos(c.posX, c.posY + rowHeight);
     c.setVelocity(c.velocityX*(-1), c.velocityY);
   }
-
-  public void mousePressed(int x, int y) {
-    
-  }
-
-  public void mouseDragged(int x, int y) {
-   
-  }
-
-  public void mouseReleased(int x, int y) {
-    
-  }
-
-  public void mouseMoved(int x, int y) {
-    
-  }
-
-  private void mouseEnteredOrExited(String msg, int x, int y) {
-    
-  }
-
-  public void mouseEntered(int x, int y) {
-    
-  }
-
-  public void mouseExited(int x, int y) {
-    
-  }
   
   public void handleCollision(Character c1, Character c2) {
     if(checkCollision(c1, c2)) {
@@ -105,7 +87,8 @@ public class TrickGame extends JComponentWithEvents {
   
   public void keyReleased(char key) {
     if(key == ' ') spaceHeld = false;
-    else if(key == LEFT) arrowHeld = false;
+    else if(key == LEFT) leftHeld = false;
+    else if(key == RIGHT) rightHeld = false;
   }
   
   public void announceScore() {
@@ -143,8 +126,10 @@ public class TrickGame extends JComponentWithEvents {
   public void keyPressed(char key) {
     if(!gameOver) {
     if(key == ' ' && tyroneAirborne == false) {cJump(tyrone); tyroneAirborne = true;}
-    else if(key == LEFT) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
-    else if(key == RIGHT) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
+    else if(key == LEFT) {//tyrone.setPos(tyrone.posX - 5, tyrone.posY); 
+      leftHeld = true;}
+    else if(key == RIGHT) {//tyrone.setPos(tyrone.posX + 5, tyrone.posY); 
+      rightHeld = true;}
     }
     else
     {
@@ -198,6 +183,8 @@ public class TrickGame extends JComponentWithEvents {
     }
     else
     {
+      //I understand it is generally frowned upon to use literals, but time is scarce
+      page.setFont(new Font("Ariel", Font.BOLD, 20));
       page.drawString("Impressive!  You got " + score + " hits!", 0, 20);
       page.drawString("What number comes before " + score + "?", 0, 40);
       page.drawString("Type your response: " + response, 0, 60);
@@ -207,10 +194,8 @@ public class TrickGame extends JComponentWithEvents {
       else {
         page.drawString("Nope!  Try again", 0, 80);
       }
-      
     }
   }
-
-  // Main Standard Method
+  
   public static void main(String[] args) { launch(wWidth, wHeight); }
 }
