@@ -5,8 +5,7 @@ import java.util.Random;
 
 public class Shapes extends JComponentWithEvents{
   
-  private int sides = 0;
-  private int correctLength = 60;
+  //colors and images variables
   private Color triShapeColor;
   private Color squShapeColor;
   private Color pentShapeColor;
@@ -15,31 +14,34 @@ public class Shapes extends JComponentWithEvents{
   private String[] colorNames = {"red", "blue", "green", "cyan", "magenta", "black"};
   public String fireImage = "Resources/fire.png";
   public String strawberry = "Resources/Steve the Strawberry.png";
-  private char[][] spaces = new char[10][10];
-  private char[][] steve = new char[10][10];
+  
+  //board setup
+  private char[][] spaces = new char[10][10];  
   private int rows = 10;
   private int cols = 10;
-  private int steveX;
-  private int steveY;
+  private int ySpot;
   private int lastPathX;
   private int lastPathY;
+  
+  //character placement
+  private char[][] steve = new char[10][10];
+  private int steveX;
+  private int steveY;
+
+  //shape placement
   private char shapeSelection = ' ';
-  private int ySpot;
+  private int sides = 0;
+  private String shapeChoice;
+  private String[] shapes = {"triangle", "square", "pentagon", "hexagon"};
   private boolean select = true;
   private boolean place = false;
-  private int[] printOut = {0,1,2};
-  private String[] shapes = {"triangle", "square", "pentagon", "hexagon"};
-  String colorSelection;
-  String shapeChoice;
-  String print;
+  private int[] printOut = {0,1};
+  private String print;
+  private int choice;
   
   PaintShapes shape = new PaintShapes();
   
-  public void Shapes(){
-    for(int i=0; i<800; i+=80)
-      for(int j=0; j<800; j+=80)
-         spaces[i][j] = 'e';
-  }
+  //// board setup //////////////////////////////////////////////////////////////////////////////////////////////////
   
   public String randomNumber(){
     Random random = new Random();
@@ -48,36 +50,32 @@ public class Shapes extends JComponentWithEvents{
     return Integer.toString(sides);
   }
   
-  public String randomColor(){
-    Random color = new Random();
-    colorSelection = colorNames[color.nextInt(6)];
-    triShapeColor = colorOptions[color.nextInt(6)];
-    squShapeColor = colorOptions[color.nextInt(6)];
-    pentShapeColor = colorOptions[color.nextInt(6)];
-    hexShapeColor = colorOptions[color.nextInt(6)];
-    return colorSelection;
-  }
-  
   public String randomShape(){
     Random shape = new Random();
     shapeChoice = shapes[shape.nextInt(4)];
     return shapeChoice;
   }
   
+  public void randomColor(){
+    Random color = new Random();
+    triShapeColor = colorOptions[color.nextInt(6)];
+    squShapeColor = colorOptions[color.nextInt(6)];
+    pentShapeColor = colorOptions[color.nextInt(6)];
+    hexShapeColor = colorOptions[color.nextInt(6)];
+  }
+  
   public void setPrintOut(){
     Random option = new Random();
-    int choice = printOut[option.nextInt(3)];
+    choice = printOut[option.nextInt(2)];
     if(choice == 0)
       print = randomNumber();
     if(choice == 1)
-      print = randomColor();
-    if(choice == 2)
       print = randomShape();
   }
   
   public void placeFire(){
     Random firePosition = new Random();
-    int fires = firePosition.nextInt(5)+10;
+    int fires = firePosition.nextInt(5)+15;
     for(int i=0; i<fires; i++){
       int xFire = firePosition.nextInt(9)+1;
       int yFire = firePosition.nextInt(10);
@@ -96,37 +94,7 @@ public class Shapes extends JComponentWithEvents{
     spaces[9][ySpot] = 'b';
   }
   
-  public void start(){
-    setPrintOut();
-    randomColor();
-    placeFire();
-    placeBases();
-  }
-  
-  public void reset(){
-    for(int i=0; i<10; i++)
-      for(int j=0; j<10; j++){
-        steve[i][j] = ' ';
-        spaces[i][j] = ' ';
-      }
-    start();
-  }
-  
-  public void timerFired(){
-  }
-  
-  public void keyPressed(char key){
-    if(key == 'r') reset();
-  }
-  
-  public void mousePressed(int x, int y){
-    if(select){
-      shapeSelection(x, y);
-    }
-    else if(place && shapeSelection != 0){
-      decideToPlace(x, y);
-    }
-  }
+  //// shape placement methods //////////////////////////////////////////////////////////////////////////////////////
   
   public void shapeSelection(int x, int y){
       if((x>250 && x<330) && (y>790 && y<870)) shapeSelection = 't';
@@ -146,7 +114,10 @@ public class Shapes extends JComponentWithEvents{
       if(spaces[lastPathX][lastPathY] != 'f'){
         if(lastPathX<10 && lastPathY<10){
           if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
-            if(shapeSelection == 't' && sides == 3 || shapeSelection == 's' && sides == 4 || shapeSelection == 'p' && sides == 5 || shapeSelection == 'h' && sides == 6){
+            if((shapeSelection == 't' && ((choice==0 && sides==3) || (choice==1 && shapeChoice.equals("triangle")))) 
+                 || (shapeSelection == 's' && ((choice==0 && sides==4) || (choice==1 && shapeChoice.equals("square")))) 
+                 || (shapeSelection == 'p' && ((choice==0 && sides==5) || (choice==1 && shapeChoice.equals("pentagon")))) 
+                 || (shapeSelection == 'h' && ((choice==0 && sides==6) || (choice==1 && shapeChoice.equals("hexagon"))))){
               spaces[lastPathX][lastPathY] = shapeSelection;
               steve[steveX][steveY] = ' ';
               steveX = lastPathX;
@@ -158,7 +129,6 @@ public class Shapes extends JComponentWithEvents{
           }
           else spaces[lastPathX][lastPathY] = 'f';
         }
-        randomColor();
       }
       select = true;
       place = false;
@@ -170,9 +140,38 @@ public class Shapes extends JComponentWithEvents{
       }
   }
   
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Paint methods
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //// graphics program methods ////////////////////////////////////////////////////////////////////////////////////
+  
+  public void start(){
+    setPrintOut();
+    randomColor();
+    placeFire();
+    placeBases();
+  }
+  
+  public void reset(){
+    for(int i=0; i<10; i++)
+      for(int j=0; j<10; j++){
+        steve[i][j] = ' ';
+        spaces[i][j] = ' ';
+      }
+    start();
+  }
+  
+  public void keyPressed(char key){
+    if(key == 'r') reset();
+  }
+  
+  public void mousePressed(int x, int y){
+    if(select){
+      shapeSelection(x, y);
+    }
+    else if(place && shapeSelection != 0){
+      decideToPlace(x, y);
+    }
+  }
+  
+  //// Paint methods ////////////////////////////////////////////////////////////////////////////////////////////////
   
   public void paint(Graphics2D page){
     page.setColor(Color.orange);
@@ -218,7 +217,16 @@ public class Shapes extends JComponentWithEvents{
   
   public void paintSteve(Graphics2D page, String strawberry, int x, int y){
    drawImage(page, strawberry, (x*80)+10, (y*80)+10, .5, 0); 
+   if (x==9 && y == ySpot){
+     page.setColor(Color.black);
+     page.setFont(new Font("Arial", Font.BOLD, 100));
+     page.drawString("You Win!", 175, 400);
+     page.setFont(new Font("Arial", Font.BOLD, 25));
+     page.drawString("Press R", 330, 440);
+   }
   }
-
+  
+  //// main /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
   public static void main(String[] args){launch(800,880);}
 }

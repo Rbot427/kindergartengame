@@ -46,7 +46,6 @@ public class Shapes extends JComponentWithEvents{
   public String randomNumber(){
     Random random = new Random();
     sides = random.nextInt(4)+3;
-    System.out.println(Integer.toString(sides));
     return Integer.toString(sides);
   }
   
@@ -111,23 +110,25 @@ public class Shapes extends JComponentWithEvents{
   public void decideToPlace(int x, int y){
       lastPathX = (int)x/80;
       lastPathY = (int)y/80;
-      if(spaces[lastPathX][lastPathY] != 'f'){
-        if(lastPathX<10 && lastPathY<10){
-          if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
-            if((shapeSelection == 't' && ((choice==0 && sides==3) || (choice==1 && shapeChoice.equals("triangle")))) 
-                 || (shapeSelection == 's' && ((choice==0 && sides==4) || (choice==1 && shapeChoice.equals("square")))) 
-                 || (shapeSelection == 'p' && ((choice==0 && sides==5) || (choice==1 && shapeChoice.equals("pentagon")))) 
-                 || (shapeSelection == 'h' && ((choice==0 && sides==6) || (choice==1 && shapeChoice.equals("hexagon"))))){
-              spaces[lastPathX][lastPathY] = shapeSelection;
-              steve[steveX][steveY] = ' ';
-              steveX = lastPathX;
-              steveY = lastPathY;
-              steve[steveX][steveY] = 's';
-              setPrintOut();
+      if(lastPathY<10){
+        if(spaces[lastPathX][lastPathY] != 'f'){
+          if(lastPathX<10 && lastPathY<10){
+            if((lastPathX == steveX+1 && lastPathY == steveY) || (lastPathX == steveX && (lastPathY == steveY+1 || lastPathY == steveY-1))){
+              if((shapeSelection == 't' && ((choice==0 && sides==3) || (choice==1 && shapeChoice.equals("triangle")))) 
+                   || (shapeSelection == 's' && ((choice==0 && sides==4) || (choice==1 && shapeChoice.equals("square")))) 
+                   || (shapeSelection == 'p' && ((choice==0 && sides==5) || (choice==1 && shapeChoice.equals("pentagon")))) 
+                   || (shapeSelection == 'h' && ((choice==0 && sides==6) || (choice==1 && shapeChoice.equals("hexagon"))))){
+                spaces[lastPathX][lastPathY] = shapeSelection;
+                steve[steveX][steveY] = ' ';
+                steveX = lastPathX;
+                steveY = lastPathY;
+                steve[steveX][steveY] = 's';
+                setPrintOut();
+              }
+              else spaces[lastPathX][lastPathY] = 'f';
             }
             else spaces[lastPathX][lastPathY] = 'f';
           }
-          else spaces[lastPathX][lastPathY] = 'f';
         }
       }
       select = true;
