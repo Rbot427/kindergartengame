@@ -21,6 +21,8 @@ public class TrickGame extends JComponentWithEvents {
   int rainbowIndex = 0;
   String response = "";
   
+  //TODO:  Organize methods
+  
   public void start() {
     init();
     setTimerDelay(25);
@@ -61,34 +63,6 @@ public class TrickGame extends JComponentWithEvents {
   public void nextRow(Character c) {
     c.setPos(c.posX, c.posY + rowHeight);
     c.setVelocity(c.velocityX*(-1), c.velocityY);
-  }
-
-  public void mousePressed(int x, int y) {
-    
-  }
-
-  public void mouseDragged(int x, int y) {
-   
-  }
-
-  public void mouseReleased(int x, int y) {
-    
-  }
-
-  public void mouseMoved(int x, int y) {
-    
-  }
-
-  private void mouseEnteredOrExited(String msg, int x, int y) {
-    
-  }
-
-  public void mouseEntered(int x, int y) {
-    
-  }
-
-  public void mouseExited(int x, int y) {
-    
   }
   
   public void handleCollision(Character c1, Character c2) {
@@ -198,6 +172,8 @@ public class TrickGame extends JComponentWithEvents {
     }
     else
     {
+      //I understand it is generally frowned upon to use literals, but time is scarce
+      page.setFont(new Font("Ariel", Font.BOLD, 20));
       page.drawString("Impressive!  You got " + score + " hits!", 0, 20);
       page.drawString("What number comes before " + score + "?", 0, 40);
       page.drawString("Type your response: " + response, 0, 60);
@@ -207,10 +183,8 @@ public class TrickGame extends JComponentWithEvents {
       else {
         page.drawString("Nope!  Try again", 0, 80);
       }
-      
     }
   }
-
-  // Main Standard Method
+  
   public static void main(String[] args) { launch(wWidth, wHeight); }
 }
