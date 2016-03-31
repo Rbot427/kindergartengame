@@ -35,7 +35,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void init() {
-    frame.setTitle("Trick Master Tyrone (LITE)");
+    //setTitle("Trick Master Tyrone (LITE)");
     background = getImageFromFile(backgroundImage);
     tyrone = new Character(getImageFromFile(tyroneImage));
     //tyrone.setVelocity(cSpeed,0);
