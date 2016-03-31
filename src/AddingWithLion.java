@@ -4,33 +4,29 @@ import javax.swing.*;
 import java.util.Random; 
 
 public class AddingWithLion extends JComponentWithEvents{
-  //public ArrayList<String> images;
   public String steve = "Resources/Steve the Strawberry.png";
   public String tyrone = "Resources/Tyrone the Turtle.png";
   public String lionPic = "Resources/Lion the Lemon.png";
-  //public String music1 = "Resources/brandenburg6.mid";
-  public double rad = 0;
+  public String music = "Resources/StarWars.mid"; 
   Character lion; 
   Character lion2; 
   Character steveo; 
-//  Character lemonPoop; 
-//  int lemonPoopX = lion.posX;
-//  int lemonPoopY = lion.posY; 
-//  int lemonPoopRadius = 10; 
-//  int lemonPoopSpeed = 5; 
+  public int[] numbers = new int[10]; 
+  int answer;
+  public boolean correct = false; 
   boolean up = false;
   boolean up2 = true; 
   public int maxHeight = (int) (getHeight()-200);
-  public int number1, number2, number3, number4, number5, number6, number7; 
+  public int number1, number2; 
   
   public void lemon(){
     lion = new Character(getImageFromFile(lionPic)); 
     lion2 = new Character(getImageFromFile(lionPic)); 
-    lion.posX = 1000;
+    lion.posX = 600;
     lion.posY = 100; 
     lion.scale = 0.50; 
-    lion2.posX = 100; 
-    lion2.posY = 900; 
+    lion2.posX = 300; 
+    lion2.posY = 700; 
     lion2.scale = 0.50; 
   }
   
@@ -38,25 +34,18 @@ public class AddingWithLion extends JComponentWithEvents{
     steveo = new Character(getImageFromFile(steve)); 
     steveo.posY = getHeight()/2-110; 
   }
-  
-//  public void lemonUpOrDown(){
-//    
-//    if (lion.posY==getHeight()/2) up = true;
-//    if (lion.posY>0 && lion.posY<getHeight()/2) up = false; 
-//    System.out.println(up); 
-//  }
+
   
   public void lionBounce(){
     if (!up2){
-      lion.setVelocity(-10, 50); 
+      lion.setVelocity(0, 50); 
       lion.setAcceleration(0, 10); 
       if (lion.posY>=maxHeight) up2 = true; 
     }
-    //System.out.println(up); 
     if (up2){
-      lion.setVelocity(-10, -50);
+      lion.setVelocity(0, -50);
       lion.setAcceleration(0, -10); 
-      if (lion.posY<=0) up2 = false;
+      if (lion.posY<=100) up2 = false;
     }
     if (lion.posX<=0)
       reset(); 
@@ -66,15 +55,14 @@ public class AddingWithLion extends JComponentWithEvents{
   
   public void lion2Bounce(){
     if (!up){
-      lion2.setVelocity(10, 50); 
+      lion2.setVelocity(0, 50); 
       lion2.setAcceleration(0, 10); 
       if (lion2.posY>=maxHeight) up = true; 
     }
-    //System.out.println(up); 
     if (up){
-      lion2.setVelocity(10, -50);
+      lion2.setVelocity(0, -50);
       lion2.setAcceleration(0, -10); 
-      if (lion2.posY<=0) up = false;
+      if (lion2.posY<=100) up = false;
     }
     if (lion2.posX>=getWidth())
       reset(); 
@@ -82,61 +70,28 @@ public class AddingWithLion extends JComponentWithEvents{
       reset(); 
   }
   
-  public boolean inYellowSquare(){
-    if (steveo.posX>=1400 && steveo.posX<=getWidth() && steveo.posY>=getHeight()/2-100 && steveo.posY<=getHeight()/2)
-      return true; 
-    return false; 
-  }
-  
   public void setNumbers(){
     Random random = new Random(); 
     number1 = random.nextInt(6); 
-    number2 = random.nextInt(6);
-    number3 = random.nextInt(6);
-    number4 = random.nextInt(6); 
-    number5 = random.nextInt(6); 
-    number6 = random.nextInt(6);
-    number7 = random.nextInt(6);
+    number2 = random.nextInt(5);
+    for (int i=0; i<numbers.length; i++){
+      numbers[i] = i; 
+    }
+    answer = (number1+number2);    
   }
-  
-   private void displayMessageBoxes(){
-      int answer = Integer.valueOf(showInputDialog("Welcome to Flow!! Choose a board size: 5, 6, 7, 8, or 9"));
-  }
-  
-//  public void lemonPoop(){
-//    if (up){
-//      lemonPoopY+=lemonPoopSpeed;
-//    }
-//      lemonPoop.posX = lion.posX;
-//      lemonPoop.posY = lion.posY; 
-//      lemonPoop.setVelocity(0, 75); 
-//      lemonPoop.setAcceleration(0, 10); 
-//    }
-      
-    
-//  public void steveoFall(){
-//    while(steveo.posY<=getHeight()/2){
-//      steveo.posY+=75;
-//    }
-//  }
-//  public void steveoJump(){
-//    steveo.setVelocity(0, -75); 
-//    steveo.setAcceleration(0, -10); 
-//    steveoFall();
-//  }
  
   
   public void start() {
     reset(); 
-    setNumbers(); 
+    play(music); 
   }
   
   public void reset(){
     lemon(); 
     strawberry();  
     lionBounce(); 
-    lion2Bounce(); 
-    //play(music1);
+    lion2Bounce();
+    setNumbers(); 
     setTimerDelay(750);
   }
 
@@ -145,49 +100,97 @@ public class AddingWithLion extends JComponentWithEvents{
     lion2.move(); 
     lionBounce(); 
     lion2Bounce(); 
-    if (inYellowSquare())
-      displayMessageBoxes();
-    System.out.println(inYellowSquare()); 
-    System.out.println("X:" + steveo.posX + "Y:" + steveo.posY); 
-//    lemonPoop(); 
-    //setNumbers(); 
   }
 
-//  public void mousePressed(int x, int y) {
-// 
-// }
-//
-//  public void mouseDragged(int x, int y) {
-//   
-//  }
-//
-//  public void mouseReleased(int x, int y) {
-//    
-//  }
-//
-//  public void mouseMoved(int x, int y) {
-//   
-//  }
-//
-//  private void mouseEnteredOrExited(String msg, int x, int y) {
-//    
-//  }
-//
-//  public void mouseEntered(int x, int y) {
-//    
-//  }
-//
-//  public void mouseExited(int x, int y) {
-//    
-//  }
-
   public void keyPressed(char key) {
-    if (key==LEFT && steveo.posX>5) steveo.posX-=5;
-    if (key==RIGHT) steveo.posX+=5; 
-//    if (key==SPACE) steveoJump();
-    if (key==DOWN) steveo.posY+=5;
-    //if (key==UP && steveo.posY>5) steveo.posY-=5; 
-    if (key==UP) steveo.posY-=5;
+    if (key==48 && answer==0){
+      correct = true; 
+      moveSteve();
+    }
+    if (key==49 && answer==1){ 
+      correct = true; 
+      moveSteve();
+    }
+    if (key==50 && answer==2){
+       correct = true; 
+      moveSteve();
+    }
+    if (key==51 && answer==3){
+       correct = true; 
+      moveSteve();
+    }
+    if (key==52 && answer==4){
+       correct = true; 
+      moveSteve();
+    }
+    if (key==53 && answer==5){
+       correct = true; 
+      moveSteve();
+    }
+    if (key==54 && answer==6){
+       correct = true; 
+      moveSteve();
+    }
+    if (key==55 && answer==7) { 
+      correct = true; 
+      moveSteve();
+    }
+    if (key==56 && answer==8){ 
+       correct = true; 
+      moveSteve();
+    }
+    if (key==57 && answer==9){
+       correct = true; 
+      moveSteve();
+    } 
+    if (key=='r'){
+      correct= false;
+      reset(); 
+    }
+    else beep(); 
+  }
+  
+  public void moveSteve(){
+    if (answer==0){
+      steveo.posX= 960;
+      steveo.posY= 400-75; 
+    }
+    if (answer==1){
+      steveo.posX=960;
+      steveo.posY=260-75;
+    }
+    if (answer==2){
+      steveo.posX=960;
+      steveo.posY=120-75;
+    }
+    if (answer==3){
+      steveo.posX=960;
+      steveo.posY=680-75;
+    }
+    if (answer==4){
+      steveo.posX=960;
+      steveo.posY=540-75;
+    }
+    if (answer==5){
+      steveo.posX=1110;
+      steveo.posY=400-75;
+    }
+     if (answer==6){
+      steveo.posX=1110;
+      steveo.posY=260-75;
+    }
+      if (answer==7){
+      steveo.posX=1110;
+      steveo.posY=120-75;
+    }
+       if (answer==8){
+      steveo.posX=1110;
+      steveo.posY=680-75;
+    }
+        if (answer==9){
+      steveo.posX=1110;
+      steveo.posY=540-75;
+    }
   }
   
   public void drawCharacter(Graphics2D page, Character c){
@@ -207,37 +210,53 @@ public class AddingWithLion extends JComponentWithEvents{
     drawCharacter(page, lion2); 
     page.setColor(Color.red);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number1),80,120);
-    page.setColor(Color.blue);
-    page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number2),300, 905);
+    page.drawString(Integer.toString(number1)+ "=?",lion.posX,lion.posY);
     page.setColor(Color.black);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number3),520,120);
+    page.drawString(Integer.toString(number2)+"+",lion2.posX,lion2.posY);
+    page.setColor(Color.yellow);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[0]),960, 400);
     page.setColor(Color.magenta);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number4),740,905);
+    page.drawString(Integer.toString(numbers[1]),960,260);
     page.setColor(Color.white);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number5),960,120);
+    page.drawString(Integer.toString(numbers[2]),960,120);
     page.setColor(Color.orange);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number6),1080,905);
-    page.setColor(Color.green);
+    page.drawString(Integer.toString(numbers[3]),960,680);
+    page.setColor(Color.blue);
     page.setFont(new Font("SansSerif",Font.BOLD,104));
-    page.drawString(Integer.toString(number7),1300,120);
-//    if (lemonPoopY!= lion.posY){
-//      page.setColor(Color.darkGray); 
-//      page.fillOval(lemonPoopX, lemonPoopY, lemonPoopRadius, lemonPoopRadius); 
-//    }
-      
+    page.drawString(Integer.toString(numbers[4]),960,540);
+    page.setColor(Color.gray);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[5]),1110, 400);
+    page.setColor(Color.yellow);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[6]),1110,260);
+    page.setColor(Color.magenta);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[7]),1110,120);
+    page.setColor(Color.white);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[8]),1110,680);
+    page.setColor(Color.orange);
+    page.setFont(new Font("SansSerif",Font.BOLD,104));
+    page.drawString(Integer.toString(numbers[9]),1110,540);
+    page.setColor(Color.blue); 
+    page.setFont(new Font("SansSerif",Font.BOLD,17));
+    page.drawString("Steve the Strawberry needs help picking the right number. Use the creepy lemon's clues and press a key to be a good friend and help Steve out!",10,150);
+    if (correct){
+      page.setColor(Color.blue); 
+      page.setFont(new Font("SansSerif",Font.BOLD,30));
+      page.drawString("Woah! You did it! Steve could use a little more help...Press r to help him again!",10,600);
     }
+   }
   
-
-  public static void main(String[] args){ launch(1500, 1125); }
+  public static void main(String[] args){ launch(1250, 750); }
   
 }
-  
   
   
   

@@ -52,7 +52,7 @@ public class AddingWithLion extends JComponentWithEvents{
       lion.setAcceleration(0, 10); 
       if (lion.posY>=maxHeight) up2 = true; 
     }
-    System.out.println(up); 
+    //System.out.println(up); 
     if (up2){
       lion.setVelocity(-10, -50);
       lion.setAcceleration(0, -10); 
@@ -82,6 +82,12 @@ public class AddingWithLion extends JComponentWithEvents{
       reset(); 
   }
   
+  public boolean inYellowSquare(){
+    if (steveo.posX>=1400 && steveo.posX<=getWidth() && steveo.posY>=getHeight()/2-100 && steveo.posY<=getHeight()/2)
+      return true; 
+    return false; 
+  }
+  
   public void setNumbers(){
     Random random = new Random(); 
     number1 = random.nextInt(6); 
@@ -91,6 +97,10 @@ public class AddingWithLion extends JComponentWithEvents{
     number5 = random.nextInt(6); 
     number6 = random.nextInt(6);
     number7 = random.nextInt(6);
+  }
+  
+   private void displayMessageBoxes(){
+      int answer = Integer.valueOf(showInputDialog("Welcome to Flow!! Choose a board size: 5, 6, 7, 8, or 9"));
   }
   
 //  public void lemonPoop(){
@@ -135,6 +145,10 @@ public class AddingWithLion extends JComponentWithEvents{
     lion2.move(); 
     lionBounce(); 
     lion2Bounce(); 
+    if (inYellowSquare())
+      displayMessageBoxes();
+    System.out.println(inYellowSquare()); 
+    System.out.println("X:" + steveo.posX + "Y:" + steveo.posY); 
 //    lemonPoop(); 
     //setNumbers(); 
   }
