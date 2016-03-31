@@ -14,7 +14,8 @@ public class TrickGame extends JComponentWithEvents {
   String ballImage = "Resources/Ball.png";
   String backgroundImage = "Resources/Background.png";
   Image background;
-  boolean ballDidHit = false, spaceHeld = false, arrowHeld = false;
+  boolean ballDidHit = false, spaceHeld = false, leftHeld = false, rightHeld = false;
+  int timerDelay = 25;
   boolean tyroneAirborne = false;
   boolean correctResponse = false;
   Color[] rainbow = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.pink};
@@ -26,6 +27,11 @@ public class TrickGame extends JComponentWithEvents {
   public void start() {
     init();
     setTimerDelay(25);
+  }
+  
+  public void setTimerDelay(int delay) {
+    super.setTimerDelay(delay);
+    timerDelay = delay;
   }
   
   public void init() {
@@ -46,6 +52,8 @@ public class TrickGame extends JComponentWithEvents {
   }
 
   public void timerFired() {
+    if(leftHeld) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
+    if(rightHeld) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
     if(tyrone.posY+tyrone.height > wHeight) {
       tyroneAirborne = false;
       landCharacter(tyrone);
@@ -79,7 +87,8 @@ public class TrickGame extends JComponentWithEvents {
   
   public void keyReleased(char key) {
     if(key == ' ') spaceHeld = false;
-    else if(key == LEFT) arrowHeld = false;
+    else if(key == LEFT) leftHeld = false;
+    else if(key == RIGHT) rightHeld = false;
   }
   
   public void announceScore() {
@@ -117,8 +126,10 @@ public class TrickGame extends JComponentWithEvents {
   public void keyPressed(char key) {
     if(!gameOver) {
     if(key == ' ' && tyroneAirborne == false) {cJump(tyrone); tyroneAirborne = true;}
-    else if(key == LEFT) tyrone.setPos(tyrone.posX - 5, tyrone.posY);
-    else if(key == RIGHT) tyrone.setPos(tyrone.posX + 5, tyrone.posY);
+    else if(key == LEFT) {//tyrone.setPos(tyrone.posX - 5, tyrone.posY); 
+      leftHeld = true;}
+    else if(key == RIGHT) {//tyrone.setPos(tyrone.posX + 5, tyrone.posY); 
+      rightHeld = true;}
     }
     else
     {
