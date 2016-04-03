@@ -157,7 +157,7 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void cBounce(Character c, int v) {
-    c.setVelocity(c.velocityX, (int)((c.velocityY*(-1) + v)));
+    c.setVelocity(c.velocityX, (int)(((c.velocityY*(-1) + v)*0.9)));
   }
   
   public void cLand(Character c) {
