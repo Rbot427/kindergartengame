@@ -20,6 +20,7 @@ public class TrickGame extends JComponentWithEvents {
   boolean correctResponse = false;
   Color[] rainbow = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.pink};
   int rainbowIndex = 0;
+  int MAX_ANNOUNCE_SCORE = 15;
   String response = "";
   
   //TODO:  Organize methods
@@ -92,7 +93,8 @@ public class TrickGame extends JComponentWithEvents {
   }
   
   public void announceScore() {
-    play("Resources/" + score + ".wav");
+    if(score <= MAX_ANNOUNCE_SCORE)
+      play("Resources/" + score + ".wav");
   }
   
   public void addScore() {
